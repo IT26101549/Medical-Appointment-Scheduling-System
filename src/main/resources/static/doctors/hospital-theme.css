@@ -1,0 +1,94 @@
+/* HospitalSystem theme for the doctor directory and its record screens. */
+:root {
+  --blue: #075ac9;
+  --navy: #142757;
+  --muted: #405e83;
+  --line: #b9d8f5;
+  --pale-blue: #e1efff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+body {
+  font-size: 18px;
+  background: radial-gradient(ellipse at 4% 18%, #e5f8ff, transparent 43%),
+              radial-gradient(ellipse at 95% 3%, #a9d8f9, transparent 56%),
+              linear-gradient(145deg, #b5dcf7, #d5f1ff 55%, #afdafa);
+  background-attachment: fixed;
+}
+.hospital-content { min-width: 0; }
+.care-bar {
+  max-width: 1570px;
+  width: calc(100% - 32px);
+  margin: 8px auto 0;
+  border: 1px solid #fff;
+  border-radius: 18px;
+  background: linear-gradient(115deg, #e4f5ffd9, #a7d7f8aa, #edfaffcc);
+  box-shadow: 0 8px 22px #2374b928, inset 0 1px 0 #fff;
+}
+.care-bar-inner { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px clamp(14px, 3vw, 32px); }
+.care-brand { display: inline-flex; align-items: center; gap: 10px; font-size: clamp(1.05rem, 2.4vw, 1.55rem); }
+.care-brand, .care-section { color: var(--navy); font-weight: 800; }
+.care-mark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border: 1px solid #b4eaff;
+  border-radius: 11px;
+  background: linear-gradient(165deg, #2bb9ff, #006beb 45%, #072fc3);
+  box-shadow: inset 0 2px 0 #d9f8ffb0, 0 4px 12px #176ed952;
+}
+.main { max-width: 1360px; padding: 24px clamp(14px, 3vw, 38px) 32px; }
+.doctor-tabs { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-bottom: 18px; }
+.doctor-tabs .button { font-size: 1rem; }
+.doctor-tabs [data-align="right"] { margin-inline-start: auto; }
+.page-heading {
+  flex-wrap: wrap;
+  padding: clamp(20px, 3.8vw, 46px);
+  min-height: 155px;
+  border: 1px solid #fff;
+  border-radius: 22px;
+  background: linear-gradient(90deg, #d6effff5 0%, #c2e6fff5 60%, #acd9f969),
+              url('/appointment/stethoscope.png') right 53% / auto 155% no-repeat, #c7eaff;
+  box-shadow: 0 10px 30px #226bac27, inset 0 1px 0 #fff;
+}
+.page-heading h1 { font-size: clamp(1.8rem, 4vw, 3.2rem); color: #0c1646; }
+.page-intro { font-size: clamp(.95rem, 1.8vw, 1.15rem); }
+.stat, .panel, .doctor-card, .table-panel, .state-panel, .profile-hero {
+  background: linear-gradient(145deg, #edf8ffe8, #d6edffe0);
+  border-color: #f8fdff;
+  box-shadow: 0 8px 22px #296faf20, inset 0 1px 0 #fff;
+}
+.button.primary {
+  color: #fff;
+  background: linear-gradient(180deg, #0589f2, #0062ed 48%, #0939cd);
+  border: 1px solid #75caff;
+  box-shadow: inset 0 2px 1px #a4e6ff96, 0 6px 14px #0767dd45;
+}
+.button.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.button.secondary { background: linear-gradient(#f8fdff, #d8edfc); border-color: #fff; }
+#deleteBtn { background: linear-gradient(#d9475d, #a81b33); border-color: #ffbac4; }
+@media (max-width: 620px) {
+  .care-section { font-size: 1rem; }
+}
+
+/* Keep larger text readable when space is limited. */
+.doctor-card h3 { font-size: 1.25rem; }
+.formfield input, .formfield select, .formfield textarea {
+  font-size: 1.0625rem;
+  min-height: 46px;
+}
+.formfield label, .detail-row dd { font-size: 1rem; }
+.directory-tools, .form-actions, .results-toolbar > div, .card-footer {
+  flex-wrap: wrap;
+}
+.form-actions .button, .card-footer .profile-link {
+  white-space: normal;
+  text-align: center;
+}
+.stat-top, .detail-row dd { overflow-wrap: anywhere; }
+@media (max-width: 520px) {
+  .filter-field { flex-basis: 100%; min-width: 0; }
+  .stat-top { flex-wrap: wrap; }
+}

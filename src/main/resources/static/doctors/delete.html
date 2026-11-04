@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0A2540" />
+    <meta
+      name="description"
+      content="Manage your medical team, doctor profiles and contact details."
+    />
+    <title>Remove doctor · Doctor Management</title>
+    <link rel="stylesheet" href="style.css?v=larger-text" />
+    <script src="config.js" defer></script>
+    <script src="app.js?v=all-module-notifications" defer></script>
+    <link rel="stylesheet" href="/hospital-sidebar.css">
+    <link rel="stylesheet" href="hospital-theme.css?v=tab-layout">
+  <link rel="stylesheet" href="/notifications.css?v=2"></head>
+  <body data-page="delete">
+<script src="/notifications.js?v=1"></script>
+
+    <svg class="icon-sprite" aria-hidden="true">
+      <defs>
+        <symbol
+          id="i-plus"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 5v14M5 12h14" />
+        </symbol>
+        <symbol
+          id="i-grid"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="2" />
+          <rect x="14" y="3" width="7" height="7" rx="2" />
+          <rect x="3" y="14" width="7" height="7" rx="2" />
+          <rect x="14" y="14" width="7" height="7" rx="2" />
+        </symbol>
+        <symbol
+          id="i-people"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="9" cy="8" r="3" />
+          <path
+            d="M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-3-5"
+          />
+        </symbol>
+        <symbol
+          id="i-doctor"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M5 3v5a4 4 0 0 0 8 0V3M3 3h4M11 3h4M9 12v3a5 5 0 0 0 10 0v-2"
+          />
+          <circle cx="19" cy="10" r="3" />
+        </symbol>
+        <symbol
+          id="i-check"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m5 12 4 4L19 6" />
+        </symbol>
+        <symbol
+          id="i-clock"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
+        </symbol>
+        <symbol
+          id="i-layers"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m12 3 10 5-10 5L2 8l10-5ZM2 12l10 5 10-5M2 16l10 5 10-5" />
+        </symbol>
+        <symbol
+          id="i-search"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="m16 16 5 5" />
+        </symbol>
+        <symbol
+          id="i-list"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+        </symbol>
+        <symbol
+          id="i-arrow"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 12h16m-6-6 6 6-6 6" />
+        </symbol>
+        <symbol
+          id="i-back"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 12H4m6-6-6 6 6 6" />
+        </symbol>
+        <symbol
+          id="i-chevron"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 5 7 7-7 7" />
+        </symbol>
+        <symbol
+          id="i-mail"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="3" />
+          <path d="m3 7 9 6 9-6" />
+        </symbol>
+        <symbol
+          id="i-phone"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="m6 3 3 5-2 2a15 15 0 0 0 7 7l2-2 5 3-1 3C10 23 1 14 3 4l3-1Z"
+          />
+        </symbol>
+        <symbol
+          id="i-room"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 21V3h14v18M2 21h20M8 7h6M8 11h6M8 21v-6h6v6" />
+        </symbol>
+        <symbol
+          id="i-edit"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 5 4 4M4 20l5-1L21 7a3 3 0 0 0-4-4L5 15l-1 5Z" />
+        </symbol>
+        <symbol
+          id="i-trash"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7" />
+        </symbol>
+        <symbol
+          id="i-refresh"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M20 7a9 9 0 0 0-15-3L2 7m0-5v5h5M4 17a9 9 0 0 0 15 3l3-3m0 5v-5h-5"
+          />
+        </symbol>
+        <symbol
+          id="i-info"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 11v6M12 7h.01" />
+        </symbol>
+        <symbol
+          id="i-menu"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </symbol>
+        <symbol
+          id="i-close"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m6 6 12 12M18 6 6 18" />
+        </symbol>
+        <symbol
+          id="i-shield"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z" />
+          <path d="m8 12 3 3 5-6" />
+        </symbol>
+      </defs>
+    </svg>
+    <a class="skip-link" href="#mainContent">Skip to content</a>
+    <div class="hospital-layout"><aside class="hospital-sidebar">
+    <a class="brand" href="/"><span aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12h4l3-6 4 12 3-6h6"/></svg></span> Hospital System</a>
+    <nav aria-label="Hospital modules">
+      <a href="/"><span class="nav-icon" aria-hidden="true">⌂</span>Dashboard</a>
+      <a href="/patients/index.html"><span class="nav-icon" aria-hidden="true">♙</span>Patients</a>
+      <a href="/doctors/index.html" aria-current="page"><span class="nav-icon" aria-hidden="true">✚</span>Doctors</a>
+      <a href="/appointment/index.html"><span class="nav-icon" aria-hidden="true">▦</span>Appointments</a>
+      <a href="/schedules/index.html"><span class="nav-icon" aria-hidden="true">◷</span>Doctor Schedules</a>
+      <a href="/payments/index.html"><span class="nav-icon" aria-hidden="true">▤</span>Payments</a>
+      <a href="/records/index.html"><span class="nav-icon" aria-hidden="true">▧</span>Medical Records</a>
+    </nav>
+  </aside><div class="hospital-content"><div class="care-bar"><div class="care-bar-inner"><a class="care-brand" href="/"><span class="care-mark" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12h4l3-6 4 12 3-6h6"/></svg></span>Hospital System</a><span class="care-section">Doctors</span></div></div><main class="main" id="mainContent" tabindex="-1">
+        <nav class="doctor-tabs" aria-label="Doctor Management">
+        <a class="button secondary" href="index.html">Doctor directory</a>
+        <a class="button secondary" data-align="right" href="overview.html">Overview</a>
+        <button id="refresh" type="button" hidden>Refresh</button>
+        </nav>
+        <a class="back-link" id="deleteBack" href="index.html"
+          ><svg class="icon" aria-hidden="true" focusable="false">
+            <use href="#i-back"></use>
+          </svg>
+          Back to doctors</a
+        >
+        <div id="deleteContent" aria-busy="true">
+          <div class="state-panel loading" role="status">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="#i-doctor"></use>
+            </svg>
+            <h2>Loading your team</h2>
+            <p>Bringing your doctor records together.</p>
+          </div>
+        </div>
+      </main>
+      </div></div>
+    
+    <noscript
+      ><div class="noscript">
+        Please enable JavaScript to load and manage doctor records.
+      </div></noscript
+    >
+  </body>
+</html>

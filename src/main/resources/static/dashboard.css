@@ -1,0 +1,185 @@
+:root {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: #183533;
+  background: #edf5f3;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; display: grid; grid-template-columns: 230px minmax(0, 1fr); min-height: 100vh; }
+a { color: #11675a; text-underline-offset: 3px; }
+a:focus-visible { outline: 3px solid #188875; outline-offset: 3px; }
+.sidebar { background: linear-gradient(155deg, #10393e, #155c53); color: #fff; padding: 25px 16px; }
+.brand { display: flex; gap: 10px; align-items: center; margin: 0 0 30px; color: #fff; text-decoration: none; font-weight: 750; }
+.brand span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: #97ead3; color: #10463f; font-size: 22px; }
+nav { display: grid; gap: 5px; }
+nav a { color: #e1f6ef; text-decoration: none; padding: 11px 12px; border-radius: 8px; font-size: .92rem; }
+nav a:hover, nav a[aria-current] { color: white; background: #ffffff20; }
+nav a[aria-current] { box-shadow: inset 3px 0 #89ead0; font-weight: 700; }
+.sidebar a:focus-visible { outline-color: #a6f2dc; }
+main { min-width: 0; width: 100%; max-width: 1550px; margin: 0 auto; padding: clamp(19px, 4vw, 45px); }
+.heading, .card-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.heading { margin-bottom: 24px; }
+h1, h2, p { margin: 0; }
+h1 { font-size: clamp(1.75rem, 4vw, 2.6rem); letter-spacing: -.035em; }
+h2 { font-size: 1.1rem; }
+.heading p, .card-heading p, .muted { color: #506b66; margin-top: 5px; font-size: .9rem; }
+.heading time { padding: 8px 12px; border: 1px solid #c6ded8; border-radius: 9px; font-size: .86rem; }
+.metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.metric, .card, .quick a { background: #fff; border: 1px solid #d9e9e4; border-radius: 14px; box-shadow: 0 5px 18px #143a3510; }
+.metric { padding: 18px; color: #204b44; text-decoration: none; display: grid; align-content: space-between; gap: 12px; }
+.metric span { font-size: .9rem; font-weight: 650; }
+.metric strong { font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.metric.featured { background: linear-gradient(145deg, #145451, #187863); color: #fff; border-color: transparent; }
+.metric:hover, .quick a:hover { box-shadow: 0 8px 22px #143a3526; }
+.workspace { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; }
+.card { padding: clamp(14px, 2vw, 23px); min-width: 0; }
+.card-heading a { font-size: .87rem; font-weight: 650; }
+.chart { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 7px; margin: 18px 0 8px; }
+.chart:empty, .appointments:empty { display: none; }
+.chart-day { display: grid; justify-items: center; gap: 6px; font-size: .77rem; color: #4d6963; }
+.chart-day b { color: #234b43; }
+.track { width: min(100%, 29px); height: 105px; display: flex; align-items: flex-end; background: #eff7f4; border-radius: 6px; }
+.bar { width: 100%; height: var(--height); background: linear-gradient(#4cbba0, #137260); border-radius: 6px; }
+.appointments { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.appointments li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 10px; background: #f0f7f4; border-radius: 8px; border-left: 3px solid #3aa68b; overflow-wrap: anywhere; }
+.appointments time, .appointments small { color: #4c655f; font-size: .82rem; }
+.appointments small { display: block; margin-top: 3px; }
+.quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.quick a { padding: 14px 12px; font-size: .86rem; font-weight: 650; text-decoration: none; }
+.status { color: #793c20; background: #fff3e6; border: 1px solid #ebd4bb; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+@media (max-width: 1100px) { .metrics, .quick { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 850px) {
+  body { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { padding: 12px 16px; }
+  .brand { margin-bottom: 9px; }
+  nav { display: flex; flex-wrap: wrap; }
+  nav a { padding: 6px 8px; }
+}
+@media (max-width: 620px) { .workspace { grid-template-columns: minmax(0, 1fr); } }
+
+/* Glass surfaces and action colors shared with the medical module pages. */
+:root {
+  color: #142957;
+  background: #e6f4ff;
+  --glass: linear-gradient(145deg, #ffffffea, #e1f1ffe0);
+  --glass-edge: #ffffffed;
+  --glass-shadow: 0 10px 25px #276ab322, inset 0 1px 0 #fff;
+  --blue: linear-gradient(175deg, #168de9, #075ac9 57%, #0945a8);
+}
+body {
+  background: radial-gradient(ellipse at 10% 0%, #bbe7ff, transparent 55%),
+              radial-gradient(ellipse at 96% 31%, #c6dfff, transparent 48%),
+              linear-gradient(145deg, #eff9ff, #ddeeff 66%, #e8f6ff);
+  background-attachment: fixed;
+  grid-template-columns: 222px minmax(0, 1fr);
+}
+a { color: #1456a2; }
+a:focus-visible { outline-color: #0c67c7; }
+.sidebar {
+  background: linear-gradient(160deg, #f9fdfff2, #d1eaffd9 62%, #eaf6ffe8);
+  color: #162e5a;
+  border-right: 1px solid #fff;
+  box-shadow: 8px 0 30px #2a6aa718;
+}
+.brand { color: #132c59; }
+.brand span {
+  color: #fff;
+  background: var(--blue);
+  border: 1px solid #b4eaff;
+  box-shadow: inset 0 1px 1px #fff9, 0 3px 9px #0d62c749;
+}
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #254a76;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 11px;
+}
+nav a:hover { color: #133664; background: #f7fcffe8; border-color: #fff; }
+nav a[aria-current], nav a[aria-current]:hover {
+  color: #fff;
+  background: var(--blue);
+  border-color: #a3dfff;
+  box-shadow: inset 0 1px 1px #fff8, 0 5px 12px #075ac93b;
+}
+.nav-icon { display: inline-grid; place-items: center; width: 1.2em; flex: none; font-size: 1.1em; }
+.sidebar a:focus-visible { outline-color: #0c67c7; }
+.heading {
+  position: relative;
+  align-items: flex-end;
+  overflow: hidden;
+  min-height: 155px;
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid var(--glass-edge);
+  border-radius: 19px;
+  background: linear-gradient(90deg, #e7f6fff7 0%, #d8effff4 52%, #b7ddf64f 78%),
+              url('/appointment/stethoscope.png') right 54% / auto 155% no-repeat, #c7eaff;
+  box-shadow: var(--glass-shadow);
+}
+.heading h1 { color: #0d2355; }
+.heading p, .card-heading p, .muted { color: #3d5a81; }
+.heading time {
+  background: #f4faffed;
+  color: #1d4479;
+  border-color: #fff;
+  box-shadow: 0 3px 10px #2669a622;
+}
+.metric, .card, .quick a {
+  color: #182f5b;
+  background: var(--glass);
+  border-color: var(--glass-edge);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+}
+.metric { align-content: start; }
+.metric.featured {
+  color: #fff;
+  background: var(--blue);
+  border-color: #b8eeff;
+  box-shadow: inset 0 2px 1px #c6f4ffa6, inset 0 -2px 0 #79ccff54, 0 8px 21px #0764c94d;
+}
+.metric-icon, .quick-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #fff;
+  border-radius: 11px;
+  background: linear-gradient(#f9fdff, #c4e5ff);
+  color: #145ab0;
+  font-size: 19px;
+  box-shadow: inset 0 1px 1px #fff, 0 4px 9px #256eb62b;
+}
+.metric.featured .metric-icon { color: #074387; }
+.card-heading h2 { color: #142b56; }
+.card-heading a {
+  padding: 6px 10px;
+  text-decoration: none;
+  background: linear-gradient(#fff, #e1efff);
+  border: 1px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px #3462a024;
+}
+.chart-day, .chart-day b { color: #274c7b; }
+.track { background: #dcecff; box-shadow: inset 0 1px 3px #6b9bcc2e; }
+.bar { background: linear-gradient(#3baff7, #075bc8); box-shadow: inset 0 1px 0 #a6deff; }
+.appointments li { background: #e3f6ff; border-left-color: #2181d6; }
+.appointments time, .appointments small { color: #3c5f85; }
+.quick a { display: flex; align-items: center; gap: 10px; }
+.quick a:nth-child(2) .quick-icon { color: #075d48; background: linear-gradient(#f3fff8, #b2f0d6); }
+.quick a:nth-child(3) .quick-icon { color: #422e90; background: linear-gradient(#faf6ff, #d5caff); }
+.quick a:nth-child(4) .quick-icon { color: #8a4e07; background: linear-gradient(#fff9e8, #ffe2a5); }
+.metric:hover, .quick a:hover { box-shadow: 0 10px 24px #1b63ac35, inset 0 1px 0 #fff; }
+@media (max-width: 850px) {
+  body { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { border-right: 0; border-bottom: 1px solid #fff; }
+  nav a { gap: 5px; }
+}
+@media (max-width: 620px) {
+  .heading { background-image: linear-gradient(90deg, #e7f6fffa, #d8efffdc 75%, #b7ddf6af), url('/appointment/stethoscope.png'); }
+  .metric { padding: 13px; }
+  .quick a { align-items: flex-start; }
+  .quick-icon { flex: none; width: 28px; height: 28px; }
+}

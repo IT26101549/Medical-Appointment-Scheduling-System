@@ -1,0 +1,23 @@
+/* Shared feedback for record actions across the six modules. */
+.hospital-notification {
+  position: fixed;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  text-align: center;
+  pointer-events: none;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border: 1px solid;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px #183d6840;
+  font-size: 1rem;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.hospital-notification:empty { padding: 0; border: 0; box-shadow: none; }
+.hospital-notification[data-kind="success"] { color: #075037; background: #e2fff1; border-color: #7bc9a7; }
+.hospital-notification[data-kind="error"] { color: #88253a; background: #ffe9ee; border-color: #f2a9b7; }
+.hospital-notification[data-kind="info"] { color: #153c74; background: #edf6ff; border-color: #a4caf1; }
