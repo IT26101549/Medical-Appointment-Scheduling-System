@@ -78,7 +78,7 @@ class DoctorServiceTest {
     void restartContinuesIdsWithoutOverwritingExistingDoctor() {
         long first = new DoctorService(file()).create(validFields()).getId();
         DoctorService restarted = new DoctorService(file());
-        long second = restarted.create(validFields()).getId();
+        long second = restarted.create(secondDoctorFields()).getId();
         assertTrue(second > first);
         assertEquals(2, new DoctorService(file()).all().size());
     }
@@ -143,5 +143,52 @@ class DoctorServiceTest {
         DoctorService service = new DoctorService(blockedParent.resolve("doctors.txt"));
         assertThrows(IllegalStateException.class, () -> service.create(validFields()));
         assertTrue(service.all().isEmpty());
+    }
+
+    private Map<String, String> secondDoctorFields() {
+        Map<String, String> fields = validFields();
+        fields.put("email", "second@example.com");
+        fields.put("phone", "0712345678");
+        return fields;
+    }
+
+    @Test
+    void rejectsDuplicateEmailAfterReloadIgnoringCase() {
+        new DoctorService(file()).create(validFields());
+        DoctorService service = new DoctorService(file());
+        Map<String, String> duplicate = secondDoctorFields();
+        duplicate.put("email", " DOCTOR@EXAMPLE.COM ");
+        var error = assertThrows(IllegalArgumentException.class, () -> service.create(duplicate));
+        assertTrue(error.getMessage().contains("email address"));
+        assertEquals(1, service.all().size());
+    }
+
+    @Test
+    void rejectsDuplicatePhoneInInternationalFormat() {
+        DoctorService service = new DoctorService(file());
+        service.create(validFields());
+        Map<String, String> duplicate = secondDoctorFields();
+        duplicate.put("phone", "+94771234567");
+        var error = assertThrows(IllegalArgumentException.class, () -> service.create(duplicate));
+        assertTrue(error.getMessage().contains("phone number"));
+        assertEquals(1, service.all().size());
+    }
+
+    @Test
+    void editAllowsOwnContactButRejectsAnotherDoctorsContact() {
+        DoctorService service = new DoctorService(file());
+        Doctor first = service.create(validFields());
+        Doctor second = service.create(secondDoctorFields());
+        Map<String, String> changes = secondDoctorFields();
+        changes.put("name", "Dr. Updated Name");
+        assertEquals("Dr. Updated Name", service.update(second.getId(), changes).getName());
+        changes.put("email", first.getEmail());
+        assertThrows(IllegalArgumentException.class, () -> service.update(second.getId(), changes));
+        changes.put("email", second.getEmail());
+        changes.put("phone", first.getPhone());
+        assertThrows(IllegalArgumentException.class, () -> service.update(second.getId(), changes));
+        Doctor reloaded = new DoctorService(file()).find(second.getId());
+        assertEquals(second.getEmail(), reloaded.getEmail());
+        assertEquals(second.getPhone(), reloaded.getPhone());
     }
 }

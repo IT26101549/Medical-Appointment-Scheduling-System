@@ -6,7 +6,7 @@ async function request(path = "", method = "GET", data) {
         options.headers["Content-Type"] = "application/json";
         options.body = JSON.stringify(data);
     }
-    const response = await fetch(API + path, options);
+    const response = await window.hospitalRequest(API + path, options);
     const text = await response.text();
     let value;
     try { value = JSON.parse(text); } catch { value = text; }

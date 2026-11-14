@@ -42,7 +42,7 @@
  }
  async function request(path, options) {
    let response;
-   try { response = await fetch(path, options); }
+   try { response = await window.hospitalRequest(path, options); }
    catch (_) { throw new Error('Cannot reach the server. Check that Spring Boot is running.'); }
    if (!response.ok) {
      let message = `Request failed (${response.status})`;

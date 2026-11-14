@@ -1,0 +1,17 @@
+.admin-sign-out {
+  align-self: start;
+  margin-top: 10px;
+  padding: 9px 12px;
+  background: #f4faff;
+  color: #142757;
+  border: 1px solid #9bbce6;
+  border-radius: 9px;
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+.admin-sign-out:hover { background: #e1efff; }
+.admin-sign-out:focus-visible { outline: 3px solid #075ac9; outline-offset: 2px; }
+.admin-sign-out:disabled { cursor: wait; }

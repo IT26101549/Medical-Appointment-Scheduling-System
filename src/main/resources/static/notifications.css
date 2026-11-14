@@ -2,9 +2,9 @@
 .hospital-notification {
   position: fixed;
   z-index: 200;
-  top: 50%;
+  top: 16px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   width: max-content;
   text-align: center;
   pointer-events: none;

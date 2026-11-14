@@ -37,6 +37,7 @@ public class DoctorService {
 
     public synchronized Doctor create(Map<String, String> values) {
         Doctor obj = fromValues(0, values);
+        checkUniqueContact(obj);
         long id = nextId.getAndIncrement();
         obj.setId(id);
         records.put(id, obj);
@@ -52,6 +53,7 @@ public class DoctorService {
     public synchronized Doctor update(long id, Map<String, String> values) {
         Doctor old = find(id);
         Doctor updated = fromValues(id, values);
+        checkUniqueContact(updated);
         records.put(id, updated);
         try {
             save();
@@ -71,6 +73,26 @@ public class DoctorService {
             records.put(id, old);
             throw ex;
         }
+    }
+
+    private void checkUniqueContact(Doctor candidate) {
+        String candidatePhone = localPhone(candidate.getPhone());
+        for (Doctor existing : records.values()) {
+            if (existing.getId() == candidate.getId() && candidate.getId() != 0) {
+                continue;
+            }
+            if (candidate.getEmail().equalsIgnoreCase(existing.getEmail().trim())) {
+                throw new IllegalArgumentException("A doctor with this email address already exists.");
+            }
+            if (candidatePhone.equals(localPhone(existing.getPhone()))) {
+                throw new IllegalArgumentException("A doctor with this phone number already exists.");
+            }
+        }
+    }
+
+    private String localPhone(String phone) {
+        String cleaned = phone.trim();
+        return cleaned.startsWith("+94") ? "0" + cleaned.substring(3) : cleaned;
     }
 
     private Doctor fromValues(long id, Map<String, String> values) {

@@ -26,7 +26,7 @@ const days = Array.from({ length: 7 }, (_, index) => {
 element('week-range').textContent = shortDate.format(days[0]) + ' – ' + shortDate.format(days[6]);
 
 async function loadList(route) {
-  const response = await fetch('/api/' + route, { headers: { Accept: 'application/json' } });
+  const response = await window.hospitalRequest('/api/' + route, { headers: { Accept: 'application/json' } });
   if (!response.ok) throw new Error(route + ' request failed');
   const records = await response.json();
   if (!Array.isArray(records)) throw new Error(route + ' returned an unexpected response');

@@ -49,7 +49,7 @@
   async function request(path, options = {}) {
     let response;
     try {
-      response = await fetch(path, {
+      response = await window.hospitalRequest(path, {
         ...options,
         headers: { Accept: "application/json", ...options.headers },
       });
@@ -728,20 +728,7 @@
     try {
       const it = await request(api + "/" + recordId());
       document.title = it.name + " · Doctor Management";
-      const saved = new URLSearchParams(location.search).get("saved");
-      const notice =
-        saved === "created"
-          ? "Doctor added to your team."
-          : saved === "updated"
-            ? "Doctor profile updated."
-            : "";
       target.innerHTML =
-        (notice
-          ? '<div class="notice" role="status">' +
-            icon("check") +
-            esc(notice) +
-            "</div>"
-          : "") +
         '<section class="profile-hero"><div class="profile-cover" aria-hidden="true"></div><div class="profile-summary">' +
         avatar(it, "profile-avatar") +
         '<div class="profile-heading"><div><h1>' +
@@ -883,6 +870,13 @@
     $("entryForm").addEventListener("submit", saveForm);
     loadForm();
   } else if (page === "details") {
+    const url = new URL(location.href);
+    const saved = url.searchParams.get("saved");
+    if (saved === "created" || saved === "updated") {
+      showMessage(saved === "created" ? "Doctor added successfully." : "Doctor profile updated.");
+      url.searchParams.delete("saved");
+      history.replaceState(history.state, "", url);
+    }
     $("refresh").addEventListener("click", loadDetails);
     loadDetails();
   } else if (page === "delete") {

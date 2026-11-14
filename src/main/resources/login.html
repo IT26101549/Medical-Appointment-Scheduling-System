@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Sign In | Hospital System</title>
+  <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+  <main>
+    <div class="brand"><span aria-hidden="true">+</span> Hospital System</div>
+    <h1>Admin sign in</h1>
+    {{DEMO}}
+    {{ERROR}}
+    <form method="post" action="/login">
+      <input type="hidden" name="token" value="{{TOKEN}}">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required autofocus>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button type="submit">Sign in</button>
+    </form>
+  </main>
+</body>
+</html>
