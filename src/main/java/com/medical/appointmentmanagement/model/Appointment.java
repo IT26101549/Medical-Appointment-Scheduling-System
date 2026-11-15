@@ -2,6 +2,7 @@ package com.medical.appointmentmanagement.model;
 
 public abstract class Appointment {
     private final int id;
+    private final Long patientId;
     private final String patientName;
     private final String doctorName;
     private String date;
@@ -10,7 +11,13 @@ public abstract class Appointment {
 
     public Appointment(int id, String patientName, String doctorName,
         String date, String time, String status) {
+        this(id, patientName, doctorName, date, time, status, null);
+    }
+
+    protected Appointment(int id, String patientName, String doctorName,
+            String date, String time, String status, Long patientId) {
         this.id = id;
+        this.patientId = patientId;
         this.patientName = patientName;
         this.doctorName = doctorName;
         this.date = date;
@@ -20,6 +27,10 @@ public abstract class Appointment {
 
     public int getId() {
         return id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
     }
 
     public String getPatientName() {

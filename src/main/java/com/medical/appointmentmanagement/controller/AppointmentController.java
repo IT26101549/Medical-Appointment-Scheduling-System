@@ -2,6 +2,8 @@ package com.medical.appointmentmanagement.controller;
 
 import com.medical.appointmentmanagement.model.Appointment;
 import com.medical.appointmentmanagement.service.AppointmentService;
+import com.medical.patientmanagement.service.PatientService;
+import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,11 @@ import java.util.Map;
 @RequestMapping("/api/appointments")
 public class AppointmentController {
     private final AppointmentService service = new AppointmentService();
+    private final PatientService patients;
+
+    public AppointmentController(PatientService patients) {
+        this.patients = patients;
+    }
 
     @GetMapping
     public List<Appointment> all() {
@@ -34,9 +41,20 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Map<String, String> body) {
         try {
-            Appointment a = service.bookAppointment(body.get("patientName"), body.get("doctorName"),
-                body.get("date"), body.get("time"), body.get("type"));
+            String patientName = body.get("patientName");
+            String selectedId = body.get("patientId");
+            Long patientId = null;
+            if (selectedId != null && !selectedId.isBlank()) {
+                patientId = Long.valueOf(selectedId);
+                patientName = patients.find(patientId).getName();
+            }
+            Appointment a = service.bookAppointment(patientName, body.get("doctorName"),
+                body.get("date"), body.get("time"), body.get("type"), patientId);
             return ResponseEntity.status(HttpStatus.CREATED).body(a);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body("The selected patient no longer exists.");
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid patient ID.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (IllegalStateException e) {

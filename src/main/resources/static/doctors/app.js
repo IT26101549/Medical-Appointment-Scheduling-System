@@ -188,7 +188,7 @@
       if (values.has(selected)) select.value = selected;
     }
   }
-  function card(it) {
+  function card(it, number) {
     const name = esc(it.name);
     return (
       '<article class="doctor-card"><div class="card-top">' +
@@ -200,8 +200,8 @@
       name +
       '</a></h3><p class="specialty">' +
       esc(it.specialization) +
-      '</p><p class="doctor-id">Doctor #' +
-      esc(it.id) +
+      '</p><p class="doctor-id">No. ' +
+      number +
       '</p><div class="card-contact"><div class="contact-line">' +
       icon("mail") +
       '<span title="' +
@@ -235,18 +235,18 @@
       "</a></div></div></article>"
     );
   }
-  function table(records, compact = false) {
+  function table(records, compact = false, start = 0) {
     const rows = records
       .map(
-        (it) =>
+        (it, index) =>
           '<tr><td><a class="table-person" href="' +
           link("details.html", it.id) +
           '">' +
           avatar(it, "small-avatar") +
           "<span><strong>" +
           esc(it.name) +
-          "</strong><small>Doctor #" +
-          esc(it.id) +
+          "</strong><small>" +
+          "No. " + (start + index + 1) +
           "</small></span></a></td><td>" +
           esc(it.specialization) +
           "</td>" +
@@ -352,8 +352,8 @@
     } else
       container.innerHTML =
         view === "grid"
-          ? '<div class="doctor-grid">' + visible.map(card).join("") + "</div>"
-          : '<div class="table-panel">' + table(visible) + "</div>";
+          ? '<div class="doctor-grid">' + visible.map((doctor, index) => card(doctor, start + index + 1)).join("") + "</div>"
+          : '<div class="table-panel">' + table(visible, false, start) + "</div>";
     container.setAttribute("aria-busy", "false");
     $("pagination").hidden = pages <= 1;
     $("pageSummary").textContent = "Page " + currentPage + " of " + pages;

@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.io.IOException;
 
+@org.springframework.stereotype.Service
 public class DoctorService {
     private final Map<Long, Doctor> records = new LinkedHashMap<>();
 

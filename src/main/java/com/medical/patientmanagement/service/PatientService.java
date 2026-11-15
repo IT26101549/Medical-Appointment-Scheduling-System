@@ -8,7 +8,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
 
+@org.springframework.stereotype.Service
 public class PatientService {
     private final Map<Long, Patient> records = new LinkedHashMap<>();
 
@@ -72,24 +75,41 @@ public class PatientService {
         Patient obj = new Patient(id);
         obj.setName(values.getOrDefault("name", ""));
         obj.setAge(values.getOrDefault("age", ""));
+        obj.setBirthDate(values.get("birthDate"));
         obj.setGender(values.getOrDefault("gender", ""));
         obj.setEmail(InputValidation.email(values.getOrDefault("email", "")));
         obj.setPhone(InputValidation.phone(values.getOrDefault("phone", "")));
         obj.setAddress(values.getOrDefault("address", ""));
         if (obj.getName().isBlank()) throw new IllegalArgumentException("Patient Name is required");
-        if (obj.getAge().isBlank()) throw new IllegalArgumentException("Age is required");
         if (obj.getGender().isBlank()) throw new IllegalArgumentException("Gender is required");
         if (obj.getEmail().isBlank()) throw new IllegalArgumentException("Email is required");
         if (obj.getPhone().isBlank()) throw new IllegalArgumentException("Phone Number is required");
-        try {
-            if (Integer.parseInt(obj.getAge()) < 0 || Integer.parseInt(obj.getAge()) > 125) throw new NumberFormatException();
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Age must be 0 to 125");
+        int age = patientAge(obj);
+        if (age < 0 || age > 100) {
+            throw new IllegalArgumentException("Age must be a whole number from 0 to 100");
         }
+        obj.setAge(String.valueOf(age));
 
         BaseRecord polymorphic = obj;
         polymorphic.describe(); // virtual method dispatch (polymorphism)
         return obj;
+    }
+
+    private int patientAge(Patient patient) {
+        if (!patient.getBirthDate().isBlank()) {
+            LocalDate birthDate = InputValidation.date(patient.getBirthDate());
+            LocalDate today = LocalDate.now();
+            if (birthDate.isAfter(today)) {
+                throw new IllegalArgumentException("Birth date cannot be in the future");
+            }
+            return Period.between(birthDate, today).getYears();
+        }
+        if (patient.getAge().isBlank()) throw new IllegalArgumentException("Age is required");
+        try {
+            return Integer.parseInt(patient.getAge());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Age must be a whole number from 0 to 100");
+        }
     }
 
     private static String encode(String s) {
@@ -104,6 +124,7 @@ public class PatientService {
         try {
             Files.createDirectories(file.getParent());
             List<String> lines = new ArrayList<>();
+            lines.add("nextId=" + nextId.get());
             for (Patient item : records.values()) {
                 List<String> parts = new ArrayList<>();
                 parts.add(String.valueOf(item.getId()));
@@ -113,6 +134,7 @@ public class PatientService {
                 parts.add(encode(item.getEmail()));
                 parts.add(encode(item.getPhone()));
                 parts.add(encode(item.getAddress()));
+                if (!item.getBirthDate().isBlank()) parts.add(encode(item.getBirthDate()));
                 lines.add(String.join("\t", parts));
             }
             Path tmp = file.resolveSibling(file.getFileName().toString() + ".tmp");
@@ -132,8 +154,12 @@ public class PatientService {
         try {
             for (String line : Files.readAllLines(file, StandardCharsets.UTF_8)) {
                 if (line.isBlank()) continue;
+                if (line.startsWith("nextId=")) {
+                    nextId.set(Math.max(nextId.get(), Long.parseLong(line.substring(7))));
+                    continue;
+                }
                 String[] parts = line.split("\t", -1);
-                if (parts.length != 7) continue;
+                if (parts.length != 7 && parts.length != 8) continue;
                 try {
                     long id = Long.parseLong(parts[0]);
                     Patient item = new Patient(id);
@@ -143,6 +169,7 @@ public class PatientService {
                     item.setEmail(decode(parts[4]));
                     item.setPhone(decode(parts[5]));
                     item.setAddress(decode(parts[6]));
+                    if (parts.length == 8) item.setBirthDate(decode(parts[7]));
                     records.put(id, item);
                     nextId.set(Math.max(nextId.get(), id+1));
                 } catch (IllegalArgumentException ex) {

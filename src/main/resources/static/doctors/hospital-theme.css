@@ -16,6 +16,8 @@ body {
   background-attachment: fixed;
 }
 .hospital-content { min-width: 0; }
+.hospital-sidebar { line-height: normal; }
+.hospital-sidebar .brand { padding: 0; letter-spacing: normal; }
 .care-bar {
   max-width: 1570px;
   width: calc(100% - 32px);
@@ -25,9 +27,20 @@ body {
   background: linear-gradient(115deg, #e4f5ffd9, #a7d7f8aa, #edfaffcc);
   box-shadow: 0 8px 22px #2374b928, inset 0 1px 0 #fff;
 }
-.care-bar-inner { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px clamp(14px, 3vw, 32px); }
+.care-bar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1480px;
+  margin: auto;
+  padding: 8px clamp(14px, 3vw, 32px);
+  line-height: normal;
+}
 .care-brand { display: inline-flex; align-items: center; gap: 10px; font-size: clamp(1.05rem, 2.4vw, 1.55rem); }
-.care-brand, .care-section { color: var(--navy); font-weight: 800; }
+.care-brand, .care-section { color: #102153; font-weight: 800; }
+.care-section { font-size: clamp(.8rem, 1.8vw, 1.15rem); }
 .care-mark {
   width: 40px;
   height: 40px;
@@ -69,10 +82,6 @@ body {
 .button.primary:hover:not(:disabled) { filter: brightness(1.08); }
 .button.secondary { background: linear-gradient(#f8fdff, #d8edfc); border-color: #fff; }
 #deleteBtn { background: linear-gradient(#d9475d, #a81b33); border-color: #ffbac4; }
-@media (max-width: 620px) {
-  .care-section { font-size: 1rem; }
-}
-
 /* Keep larger text readable when space is limited. */
 .doctor-card h3 { font-size: 1.25rem; }
 .formfield input, .formfield select, .formfield textarea {

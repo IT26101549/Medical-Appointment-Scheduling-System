@@ -74,6 +74,11 @@ public class AppointmentService {
 
     public synchronized Appointment bookAppointment(String patient, String doctor,
         String date, String time, String type) {
+        return bookAppointment(patient, doctor, date, time, type, null);
+    }
+
+    public synchronized Appointment bookAppointment(String patient, String doctor,
+            String date, String time, String type, Long patientId) {
         patient = safeText(patient, "Patient name");
         doctor = safeText(doctor, "Doctor name");
         checkFuture(date, time);
@@ -85,8 +90,8 @@ public class AppointmentService {
         }
         int id = nextId;
         Appointment a = type.equalsIgnoreCase("Online")
-        ? new OnlineAppointment(id, patient, doctor, date, time, "Pending")
-        : new PhysicalAppointment(id, patient, doctor, date, time, "Pending");
+        ? new OnlineAppointment(id, patient, doctor, date, time, "Pending", patientId)
+        : new PhysicalAppointment(id, patient, doctor, date, time, "Pending", patientId);
         appointments.add(a);
         try {
             saveAppointments();
@@ -158,7 +163,8 @@ public class AppointmentService {
                 for (Appointment a : appointments) {
                     writer.write(a.getId() + "|" + a.getPatientName() + "|" + a.getDoctorName()
                         + "|" + a.getDate() + "|" + a.getTime() + "|" + a.getStatus()
-                        + "|" + a.getAppointmentType());
+                        + "|" + a.getAppointmentType()
+                        + (a.getPatientId() == null ? "" : "|" + a.getPatientId()));
                     writer.newLine();
                 }
             }
@@ -189,13 +195,14 @@ public class AppointmentService {
             while ((line = reader.readLine()) != null) {
                 if (line.isBlank()) continue;
                 String[] p = line.split("\\|", -1);
-                if (p.length != 7) throw new IllegalStateException("Invalid saved appointment record.");
+                if (p.length != 7 && p.length != 8) throw new IllegalStateException("Invalid saved appointment record.");
                 int id = Integer.parseInt(p[0]);
+                Long patientId = p.length == 8 ? Long.valueOf(p[7]) : null;
                 Appointment a;
                 if ("Online".equals(p[6])) {
-                    a = new OnlineAppointment(id, p[1], p[2], p[3], p[4], p[5]);
+                    a = new OnlineAppointment(id, p[1], p[2], p[3], p[4], p[5], patientId);
                 } else if ("Physical".equals(p[6])) {
-                    a = new PhysicalAppointment(id, p[1], p[2], p[3], p[4], p[5]);
+                    a = new PhysicalAppointment(id, p[1], p[2], p[3], p[4], p[5], patientId);
                 } else {
                     throw new IllegalStateException("Unknown appointment type in file.");
                 }

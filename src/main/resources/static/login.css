@@ -8,10 +8,13 @@ main {
   width: min(100%, 440px); padding: clamp(22px, 6vw, 40px); border: 1px solid white;
   border-radius: 22px; background: #f2faffcb; box-shadow: 0 16px 42px #226bac30;
 }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 750; }
-.brand span, button { color: white; background: linear-gradient(#0589f2, #0062ed 48%, #0939cd); }
-.brand span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; font-size: 22px; }
-h1 { font-size: 2rem; margin: 24px 0 20px; }
+.brand {
+  display: grid;
+  justify-items: center;
+}
+.brand img { width: min(100%, 200px); height: auto; }
+button { color: white; background: linear-gradient(#0589f2, #0062ed 48%, #0939cd); }
+h1 { font-size: 2rem; margin: 24px 0 20px; text-align: center; }
 form { display: grid; gap: 10px; }
 label { font-weight: 650; }
 input, button { min-height: 46px; width: 100%; border-radius: 10px; padding: 10px 12px; font: inherit; }

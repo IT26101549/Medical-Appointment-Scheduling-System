@@ -8,13 +8,13 @@
       name="description"
       content="Manage your medical team, doctor profiles and contact details."
     />
-    <title>Doctor directory · Doctor Management</title>
+    <title>Doctor | Northern Care</title>
     <link rel="stylesheet" href="style.css?v=larger-text" />
     <script src="config.js" defer></script>
-    <script src="app.js?v=admin-login" defer></script>
+    <script src="app.js?v=doctor-list-numbering" defer></script>
     <link rel="stylesheet" href="/hospital-sidebar.css">
-    <link rel="stylesheet" href="hospital-theme.css?v=tab-layout">
-  <link rel="stylesheet" href="/notifications.css?v=3"><link rel="stylesheet" href="/admin-session.css"></head>
+    <link rel="stylesheet" href="hospital-theme.css?v=aligned-navigation">
+  <link rel="stylesheet" href="/notifications.css?v=3"><link rel="stylesheet" href="/admin-session.css"><link rel="icon" type="image/svg+xml" href="/northern-care-mark.svg"></head>
   <body data-page="directory">
 <script src="/notifications.js?v=1"></script>
 
@@ -284,17 +284,17 @@
     </svg>
     <a class="skip-link" href="#mainContent">Skip to content</a>
     <div class="hospital-layout"><aside class="hospital-sidebar">
-    <a class="brand" href="/"><span aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12h4l3-6 4 12 3-6h6"/></svg></span> Hospital System</a>
+    <a class="brand" href="/"><img src="/northern-care-mark.svg" width="32" height="32" alt=""> Northern Care</a>
     <nav aria-label="Hospital modules">
-      <a href="/"><span class="nav-icon" aria-hidden="true">⌂</span>Dashboard</a>
-      <a href="/patients/index.html"><span class="nav-icon" aria-hidden="true">♙</span>Patients</a>
-      <a href="/doctors/index.html" aria-current="page"><span class="nav-icon" aria-hidden="true">✚</span>Doctors</a>
-      <a href="/appointment/index.html"><span class="nav-icon" aria-hidden="true">▦</span>Appointments</a>
-      <a href="/schedules/index.html"><span class="nav-icon" aria-hidden="true">◷</span>Doctor Schedules</a>
-      <a href="/payments/index.html"><span class="nav-icon" aria-hidden="true">▤</span>Payments</a>
-      <a href="/records/index.html"><span class="nav-icon" aria-hidden="true">▧</span>Medical Records</a>
+      <a href="/"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 21v-7h6v7"/></svg></span>Dashboard</a>
+      <a href="/patients/index.html"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="3"/><path d="M3 20v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2H3Zm13-16a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v2"/></svg></span>Patients</a>
+      <a href="/doctors/index.html" aria-current="page"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 4v5a5 5 0 0 0 10 0V4m-10 0h2m6 0h2m-5 10v2a4 4 0 0 0 8 0v-2"/><circle cx="17" cy="11" r="3"/></svg></span>Doctors</a>
+      <a href="/appointment/index.html"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-13 5 2 2 5-5"/></svg></span>Appointments</a>
+      <a href="/schedules/index.html"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/><circle cx="12" cy="15.5" r="3"/><path d="M12 14v1.5l1 1"/></svg></span>Doctor Schedules</a>
+      <a href="/payments/index.html"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-14 5h4"/></svg></span>Payments</a>
+      <a href="/records/index.html"><span class="nav-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm7 0v5h4m-9 6h5m-2.5-2.5v5"/></svg></span>Medical Records</a>
     <button class="admin-sign-out" type="button">Sign out</button></nav>
-  </aside><div class="hospital-content"><div class="care-bar"><div class="care-bar-inner"><a class="care-brand" href="/"><span class="care-mark" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12h4l3-6 4 12 3-6h6"/></svg></span>Hospital System</a><span class="care-section">Doctors</span></div></div><main class="main" id="mainContent" tabindex="-1">
+  </aside><div class="hospital-content"><div class="care-bar"><div class="care-bar-inner"><a class="care-brand" href="/"><img src="/northern-care-mark.svg" width="40" height="40" alt=""> Northern Care</a><span class="care-section">Doctors</span></div></div><main class="main" id="mainContent" tabindex="-1">
         <nav class="doctor-tabs" aria-label="Doctor Management">
         <a class="button primary" aria-current="page" href="index.html">Doctor directory</a>
         <a class="button secondary" data-align="right" href="overview.html">Overview</a>

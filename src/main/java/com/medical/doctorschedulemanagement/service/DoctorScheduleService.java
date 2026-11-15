@@ -1,6 +1,9 @@
 package com.medical.doctorschedulemanagement.service;
 
+import com.medical.doctormanagement.service.DoctorService;
 import com.medical.doctorschedulemanagement.model.DoctorSchedule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.medical.doctorschedulemanagement.model.BaseRecord;
 import java.util.*;
 import com.medical.doctorschedulemanagement.validation.InputValidation;
@@ -9,13 +12,22 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.io.IOException;
 
+@Service
 public class DoctorScheduleService {
     private final Map<Long, DoctorSchedule> records = new LinkedHashMap<>();
 
     private final AtomicLong nextId = new AtomicLong(1);
-    private final Path file = Paths.get("data", "schedules.txt");
+    private final Path file;
+    private final DoctorService doctors;
 
-    public DoctorScheduleService() {
+    @Autowired
+    public DoctorScheduleService(DoctorService doctors) {
+        this(doctors, Paths.get("data", "schedules.txt"));
+    }
+
+    DoctorScheduleService(DoctorService doctors, Path file) {
+        this.doctors = doctors;
+        this.file = file;
         load();
     }
 
@@ -31,6 +43,7 @@ public class DoctorScheduleService {
 
     public synchronized DoctorSchedule create(Map<String, String> values) {
         DoctorSchedule obj = fromValues(0, values);
+        checkConflict(obj);
         long id = nextId.getAndIncrement();
         obj.setId(id);
         records.put(id, obj);
@@ -46,6 +59,7 @@ public class DoctorScheduleService {
     public synchronized DoctorSchedule update(long id, Map<String, String> values) {
         DoctorSchedule old = find(id);
         DoctorSchedule updated = fromValues(id, values);
+        checkConflict(updated);
         records.put(id, updated);
         try {
             save();
@@ -71,13 +85,20 @@ public class DoctorScheduleService {
         if (values == null) throw new IllegalArgumentException("Request body is required");
         DoctorSchedule obj = new DoctorSchedule(id);
         obj.setDoctorId(values.getOrDefault("doctorId", ""));
-        obj.setDoctorName(values.getOrDefault("doctorName", ""));
+
         obj.setDate(values.getOrDefault("date", ""));
         obj.setStartTime(values.getOrDefault("startTime", ""));
         obj.setEndTime(values.getOrDefault("endTime", ""));
         obj.setAvailability(values.getOrDefault("availability", ""));
         if (obj.getDoctorId().isBlank()) throw new IllegalArgumentException("Doctor ID is required");
-        if (obj.getDoctorName().isBlank()) throw new IllegalArgumentException("Doctor Name is required");
+        long doctorId;
+        try {
+            doctorId = Long.parseLong(obj.getDoctorId());
+            obj.setDoctorName(doctors.find(doctorId).getName());
+        } catch (NumberFormatException | NoSuchElementException ex) {
+            throw new IllegalArgumentException("Select a doctor from Doctor Management.");
+        }
+        obj.setDoctorId(Long.toString(doctorId));
         if (obj.getDate().isBlank()) throw new IllegalArgumentException("Schedule Date is required");
         if (obj.getStartTime().isBlank()) throw new IllegalArgumentException("Start Time is required");
         if (obj.getEndTime().isBlank()) throw new IllegalArgumentException("End Time is required");
@@ -87,6 +108,21 @@ public class DoctorScheduleService {
         BaseRecord polymorphic = obj;
         polymorphic.describe(); // virtual method dispatch (polymorphism)
         return obj;
+    }
+
+    private void checkConflict(DoctorSchedule candidate) {
+        for (DoctorSchedule existing : records.values()) {
+            String existingDoctorId = existing.getDoctorId().replaceFirst("^0+(?=[0-9])", "");
+            if (existing.getId() != candidate.getId()
+                    && candidate.getDoctorId().equals(existingDoctorId)
+                    && candidate.getDate().equals(existing.getDate())
+                    && candidate.getStartTime().compareTo(existing.getEndTime()) < 0
+                    && candidate.getEndTime().compareTo(existing.getStartTime()) > 0) {
+                throw new IllegalArgumentException("Schedule overlaps with "
+                        + existing.getStartTime() + "–" + existing.getEndTime()
+                        + " on " + existing.getDate() + " for this doctor.");
+            }
+        }
     }
 
     private static String encode(String s) {

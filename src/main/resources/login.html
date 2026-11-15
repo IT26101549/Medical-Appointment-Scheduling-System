@@ -3,14 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Sign In | Hospital System</title>
-  <link rel="stylesheet" href="/login.css">
+  <title>Admin Sign In | Northern Care</title>
+  <link rel="stylesheet" href="/login.css?v=northern-care-2">
+  <link rel="icon" type="image/svg+xml" href="/northern-care-mark.svg">
 </head>
 <body>
   <main>
-    <div class="brand"><span aria-hidden="true">+</span> Hospital System</div>
+    <div class="brand">
+      <img src="/northern-care-logo.svg" width="200" height="146" alt="Northern Care">
+    </div>
     <h1>Admin sign in</h1>
-    {{DEMO}}
+    <p>Enter username and password</p>
     {{ERROR}}
     <form method="post" action="/login">
       <input type="hidden" name="token" value="{{TOKEN}}">

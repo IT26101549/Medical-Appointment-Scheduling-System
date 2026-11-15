@@ -56,15 +56,24 @@ public class AdminLoginFilter extends OncePerRequestFilter {
             if (signedIn) {
                 redirect(response, "/");
             } else {
-                renderLogin(request, response, false);
+                String error = request.getParameter("expired") != null
+                        ? "Your previous sign-in form expired. Use this refreshed form to sign in."
+                        : "";
+                renderLogin(request, response, 200, error);
             }
             return;
         }
         if (path.equals("/login") && method.equals("POST")) {
-            signIn(request, response);
+            if (signedIn) {
+                redirect(response, "/");
+            } else {
+                signIn(request, response);
+            }
             return;
         }
-        if (path.equals("/login.css") && (method.equals("GET") || method.equals("HEAD"))) {
+        if ((path.equals("/login.css") || path.equals("/northern-care-mark.svg")
+                || path.equals("/northern-care-logo.svg"))
+                && (method.equals("GET") || method.equals("HEAD"))) {
             chain.doFilter(request, response);
             return;
         }
@@ -102,14 +111,20 @@ public class AdminLoginFilter extends OncePerRequestFilter {
     private void signIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
         String token = request.getParameter("token");
-        if (session == null || token == null || !token.equals(session.getAttribute(LOGIN_TOKEN))) {
-            redirect(response, "/login");
+        if (session == null) {
+            renderLogin(request, response, 400,
+                    "Your sign-in session could not be found. Open HospitalSystem directly in Chrome or Edge with cookies enabled, then try again.");
+            return;
+        }
+        if (token == null || !token.equals(session.getAttribute(LOGIN_TOKEN))) {
+            redirect(response, "/login?expired=1");
             return;
         }
         String submittedUsername = request.getParameter("username");
         String submittedPassword = request.getParameter("password");
         if (!validCredentials(submittedUsername, submittedPassword)) {
-            renderLogin(request, response, true);
+            renderLogin(request, response, 401,
+                    demoMode ? "Enter a username and password." : "Incorrect username or password.");
             return;
         }
         request.changeSessionId();
@@ -127,16 +142,21 @@ public class AdminLoginFilter extends OncePerRequestFilter {
                 && MessageDigest.isEqual(password, submittedPassword.getBytes(StandardCharsets.UTF_8));
     }
 
-    private void renderLogin(HttpServletRequest request, HttpServletResponse response, boolean failed)
+    private void renderLogin(HttpServletRequest request, HttpServletResponse response, int status, String error)
             throws IOException {
-        String token = UUID.randomUUID().toString();
-        request.getSession().setAttribute(LOGIN_TOKEN, token);
-        response.setStatus(failed ? 401 : 200);
+        HttpSession session = request.getSession();
+        String token;
+        synchronized (session) {
+            token = (String) session.getAttribute(LOGIN_TOKEN);
+            if (token == null) {
+                token = UUID.randomUUID().toString();
+                session.setAttribute(LOGIN_TOKEN, token);
+            }
+        }
+        response.setStatus(status);
         response.setContentType("text/html;charset=UTF-8");
-        String error = demoMode ? "Enter a username and password." : "Incorrect username or password.";
         response.getWriter().write(loginPage.replace("{{TOKEN}}", token)
-                .replace("{{DEMO}}", demoMode ? "<p>Demo mode. Enter any username and password.</p>" : "")
-                .replace("{{ERROR}}", failed ? "<p class=\"login-error\" role=\"alert\">" + error + "</p>" : ""));
+                .replace("{{ERROR}}", !error.isEmpty() ? "<p class=\"login-error\" role=\"alert\">" + error + "</p>" : ""));
     }
 
     private void redirect(HttpServletResponse response, String path) {

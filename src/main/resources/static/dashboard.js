@@ -26,7 +26,12 @@ const days = Array.from({ length: 7 }, (_, index) => {
 element('week-range').textContent = shortDate.format(days[0]) + ' – ' + shortDate.format(days[6]);
 
 async function loadList(route) {
-  const response = await window.hospitalRequest('/api/' + route, { headers: { Accept: 'application/json' } });
+  // Dashboard totals only need same-origin reads. Keep them working if the session script fails to load.
+  const response = await fetch('/api/' + route, { headers: { Accept: 'application/json' } });
+  if (response.status === 401) {
+    window.location.replace('/login');
+    throw new Error('Sign-in required');
+  }
   if (!response.ok) throw new Error(route + ' request failed');
   const records = await response.json();
   if (!Array.isArray(records)) throw new Error(route + ' returned an unexpected response');

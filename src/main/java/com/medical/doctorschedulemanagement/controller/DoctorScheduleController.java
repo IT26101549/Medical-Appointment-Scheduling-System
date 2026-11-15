@@ -10,7 +10,12 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/schedules")
 public class DoctorScheduleController {
-    private final DoctorScheduleService service = new DoctorScheduleService();
+    private final DoctorScheduleService service;
+
+    public DoctorScheduleController(DoctorScheduleService service) {
+        this.service = service;
+    }
+
     @GetMapping
     public List<DoctorSchedule> all() {
         return service.all();

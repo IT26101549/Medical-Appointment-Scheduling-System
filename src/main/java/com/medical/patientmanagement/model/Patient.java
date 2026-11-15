@@ -3,6 +3,7 @@ package com.medical.patientmanagement.model;
 public class Patient extends BaseRecord {
     private String name;
     private String age;
+    private String birthDate = "";
     private String gender;
     private String email;
     private String phone;
@@ -30,6 +31,14 @@ public class Patient extends BaseRecord {
 
     public void setAge(String value) {
         this.age = value == null ? "" : value.trim();
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String value) {
+        this.birthDate = value == null ? "" : value.trim();
     }
 
     public String getGender() {
